@@ -12,42 +12,43 @@
         <div class="small-6 columns">
             <h1 class="text-center">YOU</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;">
-
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: player_health + '%'}">
+                    {{ player_health }}
                 </div>
             </div>
         </div>
         <div class="small-6 columns">
             <h1 class="text-center">MONSTER</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;">
-
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: monster_health + '%'}">
+                    {{ monster_health }}
                 </div>
             </div>
         </div>
     </section>
-    <section class="row controls">
+    <section class="row controls" v-if="!game_running">
         <div class="small-12 columns">
-            <button id="start-game">START NEW GAME</button>
+            <button id="start-game" @click='start_game'>START NEW GAME</button>
         </div>
     </section>
-    <section class="row controls">
+    <section class="row controls" v-else>
         <div class="small-12 columns">
-            <button id="attack">ATTACK</button>
-            <button id="special-attack">SPECIAL ATTACK</button>
-            <button id="heal">HEAL</button>
-            <button id="give-up">GIVE UP</button>
+            <button id="attack" @click="attack">ATTACK</button>
+            <button id="special-attack" @click="special_attack">SPECIAL ATTACK</button>
+            <button id="heal" @click="heal">HEAL</button>
+            <button id="give-up" @click="game_running = !game_running">GIVE UP</button>
         </div>
     </section>
-    <section class="row log">
+    <section class="row log" v-if="turns.length > 0">
         <div class="small-12 columns">
             <ul>
-                <li>
-
+                <li v-for="turn in turns" :class="{ 'player-turn': turn.isPlayer, 'monster-turn': !turn.isPlayer }">
+                    {{ turn.text }}
                 </li>
             </ul>
         </div>
     </section>
 </div>
+<script src="app.js"></script>
 </body>
 </html>
